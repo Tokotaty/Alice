@@ -1,5 +1,6 @@
 import datetime as dt
 import requests
+import random as rd
 
 DATABASE = {
     'Сергей': 'Омск',
@@ -44,6 +45,15 @@ def format_count_friends(count_friends):
     else:
         return f'{count_friends} друзей'
 
+def format_sms (sms):
+    dsms = sms % 10
+    if dsms == 1:
+        return '1 сообщение'
+    elif 2 < dsms < 4:
+        return f'{sms} сообщения'
+    else:
+        return f'{sms} сообщений'
+
 
 def what_time(city):
     offset = UTC_OFFSET[city]
@@ -79,6 +89,9 @@ def process_anfisa(query):
         unique_cities = set(DATABASE.values())
         cities_string = ', '.join(unique_cities)
         return f'Твои друзья в городах: {cities_string}'
+    elif query == 'сколько у меня сообщений?':
+        sms = rd.randint(0, 100)
+        return f'у тебя {format_sms (sms)}'
     else:
         return '<неизвестный запрос>'
 
@@ -124,7 +137,8 @@ def runner():
         'Петя, который час?',
         'Коля, как погода?',
         'Соня, как погода?',
-        'Антон, как погода?'
+        'Антон, как погода?',
+        'Анфиса, сколько у меня сообщений?'
     ]
     for query in queries:
         print(query, '-', process_query(query))

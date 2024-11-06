@@ -2,6 +2,7 @@ import datetime as dt
 import requests
 import random as rd
 
+#база друзей и их место жительство
 DATABASE = {
     'Сергей': 'Омск',
     'Соня': 'Москва',
@@ -15,6 +16,7 @@ DATABASE = {
     'Петя': 'Михайловка'
 }
 
+#Часовой пояс по городам
 UTC_OFFSET = {
     'Москва': 3,
     'Санкт-Петербург': 3,
@@ -36,7 +38,7 @@ UTC_OFFSET = {
     'Владивосток': 10
 }
 
-
+# Формат ответа по друзьям
 def format_count_friends(count_friends):
     if count_friends == 1:
         return '1 друг'
@@ -45,6 +47,7 @@ def format_count_friends(count_friends):
     else:
         return f'{count_friends} друзей'
 
+# Формат ответа по смс
 def format_sms (sms):
     dsms = sms % 10
     if dsms == 1:
@@ -54,7 +57,7 @@ def format_sms (sms):
     else:
         return f'{sms} сообщений'
 
-
+# Вывод часового пояса
 def what_time(city):
     offset = UTC_OFFSET[city]
     city_time = dt.datetime.now() + dt.timedelta(hours=offset)
@@ -77,7 +80,7 @@ def what_weather(city):
     else:
         return '<ошибка на сервере погоды>'
 
-
+# Вопрос к Алисе
 def process_anfisa(query):
     if query == 'сколько у меня друзей?':
         count = len(DATABASE)
@@ -95,7 +98,7 @@ def process_anfisa(query):
     else:
         return '<неизвестный запрос>'
 
-
+# Вопрос по друзьм
 def process_friend(name, query):
     if name in DATABASE:
         city = DATABASE[name]
@@ -121,7 +124,7 @@ def process_query(query):
     else:
         return process_friend(elements[0], elements[1])
 
-
+# Вопросы к Алисе
 def runner():
     queries = [
         'Анфиса, сколько у меня друзей?',
